@@ -40,16 +40,6 @@ struct EditorToolbar: View {
                     }
                 }
                 
-                if configuration.allowsImages {
-                    Button(action: { 
-                        // Logic to insert image
-                        controller?.insertImage(identifier: "placeholder")
-                    }) {
-                        Image(systemName: "paperclip")
-                            .font(.system(size: 18, weight: .medium))
-                    }
-                }
-                
                 Spacer()
                 
                 Button(action: {
