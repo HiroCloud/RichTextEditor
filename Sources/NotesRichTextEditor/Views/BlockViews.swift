@@ -6,6 +6,7 @@ struct TextBlockView: View {
     @Binding var typingAttributes: [NSAttributedString.Key: Any]
     var configuration: NotesEditorConfiguration
     var shouldBecomeFirstResponder: Bool
+    var focusPosition: FocusPosition
     var onCommit: () -> Void
     var onBackspace: () -> Void
     var onEditingChanged: () -> Void
@@ -18,6 +19,7 @@ struct TextBlockView: View {
             font: configuration.font,
             textColor: configuration.textColor,
             shouldBecomeFirstResponder: shouldBecomeFirstResponder,
+            focusPosition: focusPosition,
             onEditingChanged: onEditingChanged,
             onCommit: onCommit,
             onBackspaceAtStart: onBackspace
@@ -31,6 +33,7 @@ struct ChecklistBlockView: View {
     @Binding var typingAttributes: [NSAttributedString.Key: Any]
     var configuration: NotesEditorConfiguration
     var shouldBecomeFirstResponder: Bool
+    var focusPosition: FocusPosition
     var onToggle: () -> Void
     var onCommit: () -> Void
     var onBackspace: () -> Void
@@ -52,6 +55,7 @@ struct ChecklistBlockView: View {
                 font: configuration.font,
                 textColor: configuration.textColor,
                 shouldBecomeFirstResponder: shouldBecomeFirstResponder,
+                focusPosition: focusPosition,
                 onEditingChanged: onEditingChanged,
                 onCommit: onCommit,
                 onBackspaceAtStart: onBackspace
@@ -67,6 +71,7 @@ struct BulletListBlockView: View {
     @Binding var typingAttributes: [NSAttributedString.Key: Any]
     var configuration: NotesEditorConfiguration
     var shouldBecomeFirstResponder: Bool
+    var focusPosition: FocusPosition
     var onCommit: () -> Void
     var onBackspace: () -> Void
     var onEditingChanged: () -> Void
@@ -86,6 +91,7 @@ struct BulletListBlockView: View {
                 font: configuration.font,
                 textColor: configuration.textColor,
                 shouldBecomeFirstResponder: shouldBecomeFirstResponder,
+                focusPosition: focusPosition,
                 onEditingChanged: onEditingChanged,
                 onCommit: onCommit,
                 onBackspaceAtStart: onBackspace
@@ -100,6 +106,7 @@ struct NumberedListBlockView: View {
     @Binding var typingAttributes: [NSAttributedString.Key: Any]
     var configuration: NotesEditorConfiguration
     var shouldBecomeFirstResponder: Bool
+    var focusPosition: FocusPosition
     var onCommit: () -> Void
     var onBackspace: () -> Void
     var onEditingChanged: () -> Void
@@ -119,6 +126,7 @@ struct NumberedListBlockView: View {
                 font: configuration.font,
                 textColor: configuration.textColor,
                 shouldBecomeFirstResponder: shouldBecomeFirstResponder,
+                focusPosition: focusPosition,
                 onEditingChanged: onEditingChanged,
                 onCommit: onCommit,
                 onBackspaceAtStart: onBackspace

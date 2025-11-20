@@ -1,10 +1,16 @@
 import SwiftUI
 import Combine
 
+public enum FocusPosition {
+    case start
+    case end
+}
+
 public class NotesEditorViewModel: ObservableObject, NotesEditorController {
     @Published var activeBlockId: UUID?
     @Published var activeSelection: NSRange = NSRange(location: 0, length: 0)
     @Published var focusedBlockId: UUID?
+    @Published var focusPosition: FocusPosition = .start
     @Published var typingAttributes: [NSAttributedString.Key: Any] = [:]
     
     // We need a way to modify the document from the controller methods.
@@ -388,6 +394,7 @@ public class NotesEditorViewModel: ObservableObject, NotesEditorController {
         
         // Focus new block
         activeBlockId = newBlock.id
+        focusPosition = .start
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
             self.focusedBlockId = newBlock.id
         }
@@ -410,6 +417,7 @@ public class NotesEditorViewModel: ObservableObject, NotesEditorController {
         if index - 1 >= 0 && index - 1 < document.blocks.count {
             let previousBlockId = document.blocks[index - 1].id
             activeBlockId = previousBlockId
+            focusPosition = .end
             // Set focus to keep keyboard visible
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
                 self.focusedBlockId = previousBlockId

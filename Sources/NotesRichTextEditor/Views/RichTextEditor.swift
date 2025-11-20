@@ -8,6 +8,7 @@ struct RichTextEditor: UIViewRepresentable {
     var font: UIFont
     var textColor: UIColor
     var shouldBecomeFirstResponder: Bool
+    var focusPosition: FocusPosition
     var onEditingChanged: () -> Void
     var onCommit: () -> Void
     var onBackspaceAtStart: () -> Void
@@ -81,8 +82,9 @@ struct RichTextEditor: UIViewRepresentable {
         if shouldBecomeFirstResponder && !uiView.isFirstResponder {
             DispatchQueue.main.async {
                 uiView.becomeFirstResponder()
-                // Set cursor to start of the text
-                uiView.selectedRange = NSRange(location: 0, length: 0)
+                // Set cursor based on focus position
+                let location = self.focusPosition == .start ? 0 : uiView.text.count
+                uiView.selectedRange = NSRange(location: location, length: 0)
             }
         }
     }
