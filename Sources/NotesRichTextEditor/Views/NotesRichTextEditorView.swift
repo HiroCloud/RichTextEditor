@@ -38,10 +38,6 @@ public struct NotesRichTextEditorView: View {
                     }
                 }
             }
-            
-            if configuration.showsToolbar {
-                EditorToolbar(controller: viewModel, configuration: .constant(configuration))
-            }
         }
         .onAppear {
             viewModel.setup(binding: $document)
@@ -69,7 +65,8 @@ public struct NotesRichTextEditorView: View {
                 focusPosition: viewModel.focusPosition,
                 onCommit: { viewModel.handleReturn(for: block.id, document: &document) },
                 onBackspace: { viewModel.handleBackspace(for: block.id, document: &document) },
-                onEditingChanged: { viewModel.setActiveBlock(id: block.id) }
+                onEditingChanged: { viewModel.setActiveBlock(id: block.id) },
+                controller: viewModel
             )
         case .checklist(var checklistBlock):
             ChecklistBlockView(
@@ -85,7 +82,8 @@ public struct NotesRichTextEditorView: View {
                 onToggle: { viewModel.toggleChecklist(for: block.id, document: &document) },
                 onCommit: { viewModel.handleReturn(for: block.id, document: &document) },
                 onBackspace: { viewModel.handleBackspace(for: block.id, document: &document) },
-                onEditingChanged: { viewModel.setActiveBlock(id: block.id) }
+                onEditingChanged: { viewModel.setActiveBlock(id: block.id) },
+                controller: viewModel
             )
         case .bullet(var bulletBlock):
             BulletListBlockView(
@@ -100,7 +98,8 @@ public struct NotesRichTextEditorView: View {
                 focusPosition: viewModel.focusPosition,
                 onCommit: { viewModel.handleReturn(for: block.id, document: &document) },
                 onBackspace: { viewModel.handleBackspace(for: block.id, document: &document) },
-                onEditingChanged: { viewModel.setActiveBlock(id: block.id) }
+                onEditingChanged: { viewModel.setActiveBlock(id: block.id) },
+                controller: viewModel
             )
         case .numbered(var numberedBlock):
             NumberedListBlockView(
@@ -115,7 +114,8 @@ public struct NotesRichTextEditorView: View {
                 focusPosition: viewModel.focusPosition,
                 onCommit: { viewModel.handleReturn(for: block.id, document: &document) },
                 onBackspace: { viewModel.handleBackspace(for: block.id, document: &document) },
-                onEditingChanged: { viewModel.setActiveBlock(id: block.id) }
+                onEditingChanged: { viewModel.setActiveBlock(id: block.id) },
+                controller: viewModel
             )
         case .image(var imageBlock):
             ImageBlockView(

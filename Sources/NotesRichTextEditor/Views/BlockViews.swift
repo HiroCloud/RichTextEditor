@@ -10,12 +10,20 @@ struct TextBlockView: View {
     var onCommit: () -> Void
     var onBackspace: () -> Void
     var onEditingChanged: () -> Void
+    // We need the controller to pass to RichTextEditor, but BlockViews don't have it directly.
+    // We should add it or pass it via closure?
+    // Actually, NotesEditorViewModel conforms to NotesEditorController.
+    // But BlockViews are initialized in NotesRichTextEditorView where we have the viewModel.
+    // So we should add a controller property to BlockViews.
+    var controller: NotesEditorController?
     
     var body: some View {
         RichTextEditor(
             text: $block.attributedText,
             selection: $selection,
             typingAttributes: $typingAttributes,
+            controller: controller,
+            configuration: configuration,
             font: configuration.font,
             textColor: configuration.textColor,
             shouldBecomeFirstResponder: shouldBecomeFirstResponder,
@@ -38,6 +46,7 @@ struct ChecklistBlockView: View {
     var onCommit: () -> Void
     var onBackspace: () -> Void
     var onEditingChanged: () -> Void
+    var controller: NotesEditorController?
     
     var body: some View {
         HStack(alignment: .top) {
@@ -52,6 +61,8 @@ struct ChecklistBlockView: View {
                 text: $block.attributedText,
                 selection: $selection,
                 typingAttributes: $typingAttributes,
+                controller: controller,
+                configuration: configuration,
                 font: configuration.font,
                 textColor: configuration.textColor,
                 shouldBecomeFirstResponder: shouldBecomeFirstResponder,
@@ -75,6 +86,7 @@ struct BulletListBlockView: View {
     var onCommit: () -> Void
     var onBackspace: () -> Void
     var onEditingChanged: () -> Void
+    var controller: NotesEditorController?
     
     var body: some View {
         HStack(alignment: .top) {
@@ -88,6 +100,8 @@ struct BulletListBlockView: View {
                 text: $block.attributedText,
                 selection: $selection,
                 typingAttributes: $typingAttributes,
+                controller: controller,
+                configuration: configuration,
                 font: configuration.font,
                 textColor: configuration.textColor,
                 shouldBecomeFirstResponder: shouldBecomeFirstResponder,
@@ -110,6 +124,7 @@ struct NumberedListBlockView: View {
     var onCommit: () -> Void
     var onBackspace: () -> Void
     var onEditingChanged: () -> Void
+    var controller: NotesEditorController?
     
     var body: some View {
         HStack(alignment: .top) {
@@ -123,6 +138,8 @@ struct NumberedListBlockView: View {
                 text: $block.attributedText,
                 selection: $selection,
                 typingAttributes: $typingAttributes,
+                controller: controller,
+                configuration: configuration,
                 font: configuration.font,
                 textColor: configuration.textColor,
                 shouldBecomeFirstResponder: shouldBecomeFirstResponder,

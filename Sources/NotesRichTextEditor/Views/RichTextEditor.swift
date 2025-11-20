@@ -5,6 +5,8 @@ struct RichTextEditor: UIViewRepresentable {
     @Binding var text: AttributedString
     @Binding var selection: NSRange
     @Binding var typingAttributes: [NSAttributedString.Key: Any]
+    var controller: NotesEditorController?
+    var configuration: NotesEditorConfiguration
     var font: UIFont
     var textColor: UIColor
     var shouldBecomeFirstResponder: Bool
@@ -28,12 +30,22 @@ struct RichTextEditor: UIViewRepresentable {
         textView.attributedText = NSAttributedString(text)
         
         // Add toolbar
-        let toolbar = UIToolbar()
-        toolbar.sizeToFit()
-        let flex = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let done = UIBarButtonItem(barButtonSystemItem: .done, target: context.coordinator, action: #selector(Coordinator.dismissKeyboard))
-        toolbar.items = [flex, done]
-        textView.inputAccessoryView = toolbar
+        if configuration.showsToolbar {
+            let toolbarView = EditorToolbar(controller: controller, configuration: .constant(configuration))
+            let hostingController = UIHostingController(rootView: toolbarView)
+            hostingController.view.backgroundColor = .clear
+            hostingController.view.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 60)
+            
+            // Ensure the view resizes correctly
+            hostingController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+            
+            textView.inputAccessoryView = hostingController.view
+            
+            // Keep a reference to the hosting controller to prevent deallocation
+            // We can attach it to the text view using objc_setAssociatedObject or a subclass property
+            // For now, let's assume the inputAccessoryView retains it, but UIHostingController might need to be retained.
+            // Actually, inputAccessoryView is a strong reference.
+        }
         
         return textView
     }

@@ -139,6 +139,15 @@ public class NotesEditorViewModel: ObservableObject, NotesEditorController {
     }
     
     private func toggleBoldTrait(in attributedString: inout NSMutableAttributedString, range: NSRange) {
+        // First, ensure all text has a font attribute
+        let baseFont = UIFont.preferredFont(forTextStyle: .body)
+        attributedString.enumerateAttribute(.font, in: range) { value, subRange, _ in
+            if value == nil {
+                attributedString.addAttribute(.font, value: baseFont, range: subRange)
+            }
+        }
+        
+        // Now toggle the bold trait
         attributedString.enumerateAttribute(.font, in: range) { value, subRange, _ in
             guard let currentFont = value as? UIFont else { return }
             
@@ -167,6 +176,15 @@ public class NotesEditorViewModel: ObservableObject, NotesEditorController {
     }
     
     private func toggleItalicTrait(in attributedString: inout NSMutableAttributedString, range: NSRange) {
+        // First, ensure all text has a font attribute
+        let baseFont = UIFont.preferredFont(forTextStyle: .body)
+        attributedString.enumerateAttribute(.font, in: range) { value, subRange, _ in
+            if value == nil {
+                attributedString.addAttribute(.font, value: baseFont, range: subRange)
+            }
+        }
+        
+        // Now toggle the italic trait
         attributedString.enumerateAttribute(.font, in: range) { value, subRange, _ in
             guard let currentFont = value as? UIFont else { return }
             
